@@ -5,45 +5,23 @@ var katalogLink = "http://www.metro-gastronomieshop.de/aktuellewerbung/fullscree
 var errorText = "Keine Kataloge in dieser Kategorie";
 var screenshotNow = new Date();
 var screenshotDateTime = screenshotNow.getFullYear() + pad(screenshotNow.getMonth() + 1) + pad(screenshotNow.getDate()) + '-' + pad(screenshotNow.getHours()) + pad(screenshotNow.getMinutes()) + pad(screenshotNow.getSeconds());
-var viewports = [
-      {
-        'name': 'tablet-landscape',
-        'viewport': {width: 1024, height: 768}
-      },
-      {
-        'name': 'HD',
-        'viewport': {width: 1920, height: 1080}
-      },
-      {
-        'name': 'desktop-standard',
-        'viewport': {width: 1280, height: 1024}
-      }
-    ];
 
 	
 casper.test.begin('Katalog auf Absolutweb Test', 3, function suite(test) {
 	//Zuerst aktuelle Screenshots erfassen
 	casper.start(katalogLink, function(){
-		casper.each(viewports, function(casper, viewport) {
-			  this.then(function() {
-				this.viewport(viewport.viewport.width, viewport.viewport.height);
-			  });
-			  this.thenOpen(katalogLink, function() {
-				return true;
-			  });
-			  this.then(function(){
-				this.echo('Screenshot for ' + viewport.name + ' (' + viewport.viewport.width + 'x' + viewport.viewport.height + ')', 'info');
-				this.capture('screenshots-ProfiJournal-'  + screenshotDateTime + '/' + viewport.name + '-' + viewport.viewport.width + 'x' + viewport.viewport.height + '.png', {
-					top: 0,
-					left: 0,
-					width: viewport.viewport.width,
-					height: viewport.viewport.height
-				});
-			  });
-			});
 		test.assertSelectorHasText('ol#tabs li.current span', 'ProfiJournal');
 		test.assertDoesntExist('body > p', 'Keine Kataloge in dieser Kategorie tag Fehlt: YEaH!');
 		test.assertTextDoesntExist('Keine Kataloge in dieser Kategorie', 'Keine Kataloge in dieser Kategorie Ist nicht zu sehen Fehlt: YEaH!');
+		// Falls keine Kataloge Vorhanden=> Beweisfoto erstellen
+		this.echo(this.fetchText('body > p'));
+		if (this.fetchText('body > p') == errorText ){
+			this.viewport(1280, 1024).then( function(){
+				this.capture('screenshot-ProfiJournal-'  + screenshotDateTime + '.png');
+			});
+		} else {
+			this.echo('Kein Beweisfoto notwendig.');
+		}
 	});
 	casper.run(function() {
 		test.done();
