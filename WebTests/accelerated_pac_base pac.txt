@@ -1,0 +1,288 @@
+function FindProxyForURL(url,host)
+{
+	//---------------------------------------------------------
+	// PAC File DE CAMPUS
+	//
+	// used to direct clients to a random order of Proxies
+	// or send the Client directly to the URL
+	//
+	//---------------------------------------------------------
+	// Date created: 19.01.2010
+	// Date modified:
+	//
+	// Created by: Jens-Peter Wand
+	// Modified by:
+	//---------------------------------------------------------
+	
+	//----------------------------------------------------------
+	// Exclusions from Proxy
+	//----------------------------------------------------------
+	
+	// URL's using DIRECT connection
+	if (	//Local Connections
+		   shExpMatch ( host, "localhost")
+		|| shExpMatch ( host, "127.0.0.1")
+		
+		// Management URL's GCS
+		|| shExpMatch ( host, "proxyconfig.mgi.de")
+		|| shExpMatch ( host, "*.proxyconfig.mgi.de")
+		|| shExpMatch ( host, "dus30man002.asf.madm.net")
+		|| shExpMatch ( host, "radadmin01.mgi.de")
+		|| shExpMatch ( host, "radadmin02.mgi.de")
+		
+		// Management URL's CCS
+		|| shExpMatch ( host, "dus30view3.de.madm.net")
+
+		// Management URL's NAS
+		|| shExpMatch ( host, "*.infra.msys.net")
+
+		// Management URL's iAS
+		|| shExpMatch ( host, "dus?-adm-*.mgi.de")
+		|| shExpMatch ( host, "ffm?-adm-*.mgi.de")
+
+		// Management URL's EDC
+		|| shExpMatch ( host, "hobbit.mgi.de")
+		|| shExpMatch ( host, "tivoli.mgi.de")
+		|| shExpMatch ( host, "tivoli-jp.mgi.de")
+		|| shExpMatch ( host, "tivoli-pp.mgi.de")
+		|| shExpMatch ( host, "tivoli-dev.mgi.de")
+		|| shExpMatch ( url, "http://unix-performance.metro-dus.de:6668/*")
+		
+		// SSL VPN Portal (GCS Firewall)
+		|| shExpMatch ( host, "home.metro.info")
+		|| shExpMatch ( host, "asf30dbastmcc11.asf.madm.net")
+		|| shExpMatch ( host, "fw-tools.asf.madm.net")
+		|| shExpMatch ( host, "fw-tools-rsa.asf.madm.net")
+		|| shExpMatch ( url, "http://fritz/*")
+		|| shExpMatch ( url, "http://my.firewall*")
+		|| shExpMatch ( url, "*wm2010.metro.info*")
+		
+		// PGP Universla Server
+		|| shExpMatch ( host, "universal.mgi.de")
+		
+		// Networking URL's
+		|| shExpMatch ( host, "secure-portalplatform.metrogroup-networking.com")
+		|| shExpMatch ( host, "networking-portal.metro.de")
+		|| shExpMatch ( host, "portalplatform.metrogroup-networking.com")
+		|| shExpMatch ( host, "preprod-portalplatform.metrogroup-networking.com")
+		|| shExpMatch ( host, "authors.metrogroup-networking.com")
+		|| shExpMatch ( host, "collaboration.metrogroup-networking.com")
+		|| shExpMatch ( host, "my-collaboration.metrogroup-networking.com")
+		|| shExpMatch ( host, "preprod-collaboration.metrogroup-networking.com")
+		|| shExpMatch ( host, "preprod-my-collaboration.metrogroup-networking.com")
+		|| shExpMatch ( host, "test-collaboration.metrogroup-networking.com")
+		|| shExpMatch ( host, "test-my-collaboration.metrogroup-networking.com")
+		|| shExpMatch ( host, "v4-collaboration.metrogroup-networking.com")
+		|| shExpMatch ( host, "preprodv4-collaboration.metrogroup-networking.com")
+		|| shExpMatch ( host, "csm.metrogroup-networking.com")
+		|| shExpMatch ( host, "qa-csm.metrogroup-networking.com")
+		|| shExpMatch ( host, "pp-csm.metrogroup-networking.com")
+		|| shExpMatch ( host, "localclient.metrogroup-networking.com")
+		|| shExpMatch ( url, "http://dus30webstmgi02*")
+		|| shExpMatch ( url, "http://dus30webstmgi14*")
+		|| shExpMatch ( url, "http://dus30webstmag01*")
+		
+		// CTA Systems relying on a ACL
+		|| shExpMatch ( host, "10.16.249.151")
+		|| shExpMatch ( host, "10.16.249.153")
+		
+		// HPSC Monitor (ST3)
+		|| shExpMatch ( host, "hpsc-monitor.asf.madm.net")
+				
+		//MGB Systeme STIII (Thomas Ritz)
+		|| shExpMatch ( host, "dus30webstmgb01.metro-dus.de")
+		|| shExpMatch ( host, "dus30webstmgb02.metro-dus.de")
+		
+		// Metro Link
+		|| shExpMatch ( host, "collaboration.metro-link.com")
+		
+		// IAPPL (iAS Admins - houben)
+		|| shExpMatch ( url, "https://iappl*")
+		|| shExpMatch ( url, "http://iappl*")
+		|| shExpMatch ( url, "https://mcrm*")
+		|| shExpMatch ( url, "http://mcrm*")
+		|| shExpMatch ( url, "https://rcrm*")
+		|| shExpMatch ( url, "http://rcrm*")
+		|| shExpMatch ( url, "http://ias01*")
+		|| shExpMatch ( host, "map.metro-dus.de")
+		|| shExpMatch ( host, "map-pp.metro-dus.de")
+		
+		// IM20602761 - Siebel CRM Real
+		|| shExpMatch ( url, "https://rcrm*")
+		|| shExpMatch ( url, "http://rcrm*")
+
+		// IM20428850 - Metrp Properties
+		|| shExpMatch ( host, "inventory.metro-properties.com")
+		|| shExpMatch ( host, "inventory-reporting.metro-properties.com")
+
+		// IM20521773 - MCCD Reporting
+		|| shExpMatch ( host, "ffm11dbazst0010.asf.madm.net")
+		|| shExpMatch ( host, "ffm30dbastmcc06.asf.madm.net")
+		
+		// ITG URL's (Goscinski)
+		|| shExpMatch ( host, "itg.mgi.de")
+		|| shExpMatch ( host, "preprod-itg.mgi.de")
+		
+		//responsible DNS Server ritig9.rit.reuters.com - no answer
+		|| shExpMatch ( url, "http://*.rservices.com*")
+		
+		//Reuters Page (Steisch/METRO-AG FINANZEN)
+		|| shExpMatch ( host, "www.xtreme.realtime-data.de")
+		|| shExpMatch ( host, "213.69.180.217")
+
+		//DHL Easyfreight (MGL/Bernstein)
+		|| shExpMatch ( host, "easywebfreight.de.dhl.com")
+
+		// Prestige
+		|| shExpMatch ( host, "ffm30webstmcc25.asf.madm.net")
+		
+		// MGH
+		|| shExpMatch ( host, "home.metro-mgh.de")
+		
+		// real Direct Domain
+		|| shExpMatch ( host, "*direct.real.de")
+		|| shExpMatch ( host, "*direct.real-hypermarket.com")
+		
+		// MGA direct Domain
+		|| shExpMatch ( host, "*.mgaerp.metro-mga.de")
+		
+		// MAM VPN access
+		|| shExpMatch ( host, "soap.ear-system.de")
+
+		// Filenet
+		|| shExpMatch ( host, "filenet-dms2.metro-dus.de")
+
+		// old entries
+		|| shExpMatch ( url, "http://172.16.5.76*")
+		|| shExpMatch ( url, "http://tpdbl*")
+		|| shExpMatch ( url, "http://devmgi1.*")
+		|| shExpMatch ( url, "http://*.khof.com*")
+		|| shExpMatch ( url, "http://dusoms3*")
+		|| shExpMatch ( url, "http://isfs1*")
+		|| shExpMatch ( url, "http://*.realdirect.de.madm.net*")
+		|| shExpMatch ( url, "http://leergut.real.de*")
+		|| shExpMatch ( url, "http://alz01srv4900053.real.de*")
+		|| shExpMatch ( url, "http://callsolution.real.de*")
+		|| shExpMatch ( url, "http://callsolution-web.real.de*")
+		|| shExpMatch ( url, "http://hanra911.real.de*")
+		|| shExpMatch ( url, "http://edureal.real.pl*")
+		|| shExpMatch ( url, "http://160.58.95.45*")
+		|| shExpMatch ( url, "http://164.61.212.82*")
+		|| shExpMatch ( url, "http://192.168.82.158*")
+		|| shExpMatch ( url, "http://164.139.223.19:8000*")
+		|| shExpMatch ( url, "http://164.139.223.20:8000*")
+		|| shExpMatch ( url, "http://164.139.223.96:8000*")
+		|| shExpMatch ( url, "http://dus30webstkhf06.de.madm.net*")
+		|| shExpMatch ( url, "http://dus01webstrea01.de.madm.net*")
+		|| shExpMatch ( url, "http://164.61.211.160*")
+		|| shExpMatch ( url, "http://dus30sapstmgi04.de.madm.net*")
+		|| shExpMatch ( url, "http://dus30appstmag14.de.madm.net*")
+		|| shExpMatch ( url, "http://webtest.ccschaper.de*")
+		|| shExpMatch ( url, "http://10.100.60.36*")
+		|| shExpMatch ( host, "moe01tst4909006.real.de")
+		|| shExpMatch ( url, "http://sar23app05.metro-mdl.de*")
+		)
+	{
+		return "DIRECT";
+	}
+
+	// HTTP URL's using FIXED ORDER
+	else if ( // ÖBB AT URL's - JRE problem
+		   shExpMatch ( host, "gatekeeper1.oebb.at")
+		|| shExpMatch ( host, "193.81.167.173")
+		|| shExpMatch ( host, "gatekeeper4.oebb.at")
+		|| shExpMatch ( host, "193.81.167.177")
+		|| shExpMatch ( host, "www.railcargo.at")
+		|| shExpMatch ( host, "193.81.167.178")
+		
+		// Networking URL's
+		|| shExpMatch ( host, "home.ccschaper.de")
+		|| shExpMatch ( url, "*.metrogroup-networking.com*")
+		
+		// Portal ITS Server
+		|| shExpMatch ( url, "http://dus30webstmgi01*")
+		|| shExpMatch ( url, "http://dus30webstmgi13*")
+		|| shExpMatch ( url, "http://dus30appstmgi47*")
+		|| shExpMatch ( url, "http://dus30webstmag02*")
+		|| shExpMatch ( url, "http://dus30webstmag03*")
+		
+		// Banking Sites - Cookie over different Domains
+		|| shExpMatch ( url, "*ubs.com*")
+		|| shExpMatch ( url, "*imrworldwide.com*")
+		|| shExpMatch ( url, "*ubswarburg.com*")
+		|| shExpMatch ( url, "*sparkasse*")
+		|| shExpMatch ( host, "premium.gfkms.com")
+		|| shExpMatch ( url, "http://*.comdirect.de*")
+		|| shExpMatch ( url, "http://*.comdirect.com*")
+		
+		// Lufthansa URL's
+		|| shExpMatch ( url, "*lufthansa.de*")
+		|| shExpMatch ( url, "*lufthansa.com*")
+		
+		// Amadeus Travelservice URL's
+		|| shExpMatch ( url, "*amadeus.com*")
+		|| shExpMatch ( url, "*amadeus.net*")
+		
+		// Real CMS Tool URL's
+		|| shExpMatch ( url, "*www.real.info*")
+		|| shExpMatch ( url, "*www.real-hypermarket.com*")
+		
+		// URL's for ECHarris - on2
+		|| shExpMatch ( url, "*echarris-on2.com*")
+		|| shExpMatch ( url, "*echarris.com*")
+		
+		// URL's POS Commander
+		|| shExpMatch ( host, "*.technikservice24.de")
+		
+		// old entries
+		|| shExpMatch ( url, "*dbresearch.com*")
+		|| shExpMatch ( url, "*ml.com*")
+		|| shExpMatch ( url, "http://*.rewe-gvs.de*")
+		|| shExpMatch ( url, "*metro2000.de*")
+		)
+	{
+		//return "PROXY 194.99.170.12:3128; PROXY 164.139.7.12:3128; PROXY 164.61.223.12:3128; DIRECT";
+		return "PROXY 10.16.36.37:3128; PROXY 10.16.36.36:3128; PROXY 10.16.36.38:3128; DIRECT";
+	}
+	//shorter Return value for JRE1.6.0_22 Webex Problem
+	else if (
+		   shExpMatch ( url, "https://*.webex.com*")
+		)
+	{	
+		return "PROXY 10.16.36.36:3128; PROXY 10.16.36.37:3128; DIRECT";
+	}
+
+	// HTTPS URL's using fixed Proxy Order
+	else if (
+		   shExpMatch ( url, "https*")
+		)
+	{	
+		//return "PROXY 164.61.223.12:3128; PROXY 164.139.7.12:3128; PROXY 194.99.170.12:3128; DIRECT";
+		return "PROXY 10.16.36.38:3128; PROXY 10.16.36.36:3128; PROXY 10.16.36.37:3128; DIRECT";
+	}
+	
+	// RETURN RANDOM PROXY
+	else
+	{
+		return randomProxy();
+	}
+}
+
+function randomProxy()
+{
+	switch( Math.floor( Math.random() * 3 ) )
+	{
+		case 0:
+			//return "PROXY 164.61.223.12:3128; PROXY 194.99.170:3128; PROXY 164.139.7.12:3128; DIRECT";
+			return "PROXY 10.16.36.38:3128; PROXY 10.16.36.37:3128; PROXY 10.16.36.36:3128; DIRECT";
+			break;
+		case 1:
+			//return "PROXY 164.139.7.12:3128; PROXY 164.61.223.12:3128; PROXY 194.99.170.12:3128; DIRECT";
+			return "PROXY 10.16.36.36:3128; PROXY 10.16.36.38:3128; PROXY 10.16.36.37:3128; DIRECT";
+			break;
+		case 2:
+			//return "PROXY 194.99.170.12:3128; PROXY 164.139.7.12:3128; PROXY 164.61.223.12:3128; DIRECT";
+			return "PROXY 10.16.36.37:3128; PROXY 10.16.36.36:3128; PROXY 10.16.36.38:3128; DIRECT";
+			break;
+	}
+}
