@@ -7,5 +7,6 @@ echo "PATH is OK"
 echo "Append Casper Files to Path"
 call setup
 )
+echo on
 call casperjs test suite --proxy=10.16.36.38:3128 --pre=pre-test.js
 pause
