@@ -1,7 +1,14 @@
 // Pre Flight Tests:
 // Proxy verwendbar?
+var fs = require('fs'); 
+var dateNow = new Date();
+var dateDateTime = dateNow.getFullYear() + pad(dateNow.getMonth() + 1) + pad(dateNow.getDate()) + '-' + pad(dateNow.getHours()) + pad(dateNow.getMinutes()) + pad(dateNow.getSeconds());
+
+
 
 var googleTitle ='Google';
+
+fs.write('web-checks.log' , 'Start checks:' + dateDateTime + '\n', 'a');
 
 casper.test.begin('Internet und Google verfügbar TEst', 1, function suite(test) {
 	//Zuerst aktuelle Screenshots erfassen
@@ -24,3 +31,11 @@ casper.test.begin('Internet und Google verfügbar TEst', 1, function suite(test)
 		test.done();
 	});
 });
+
+function pad(number) {
+  var r = String(number);
+  if ( r.length === 1 ) {
+    r = '0' + r;
+  }
+  return r;
+}
