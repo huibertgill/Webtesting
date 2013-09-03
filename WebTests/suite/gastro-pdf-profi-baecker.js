@@ -15,9 +15,7 @@ casper.test.begin('Katalog auf Absolutweb Test', testCount, function suite(test)
 		test.assertTextDoesntExist('Keine Kataloge in dieser Kategorie', 'Test Text: Keine Kataloge');
 	});
 	casper.run(function() {
-		this.echo("Failed" + test.failed) ;
-		this.echo("Executed" + test.executed) ;
-		if (test.executed && test.executed==testCount && !test.failed) {
+		if (test.currentSuite.failed < 1) {
 			this.echo('Kein Beweisfoto notwendig.');
 		} else {
 			fs.write('web-checks.log' , 'Kataloge auf ' + katalogLink + 'Fehlerhaft um:' + dateDateTime + ' (Sehe Screenshots)\n', 'a');

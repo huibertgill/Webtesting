@@ -21,6 +21,8 @@ casper.test.begin('Internet und Google verfügbar TEst', 1, function suite(test)
 		if(this.getTitle() != googleTitle) {
 			this.echo('\n\n Google Title seht falsch aus. Soll[' + googleTitle + '] ist:[' + this.getTitle() + ']\n dies kann passieren wenn der Proxy nicht funktioniert.');
 			this.echo('Am besten einmal das INternet mit IE besuchen Ueber die oben genannte Proxy. "IM IE: menue->extras->Ineternet optionen->Verbindungen');
+			fs.write('web-checks.log' , 'Start checks:' + dateDateTime + ' - Proxy Error\n', 'a');
+
 			this.exit(1);
 		} else {
 			this.echo('Google Title OK');
@@ -38,4 +40,5 @@ function pad(number) {
     r = '0' + r;
   }
   return r;
+
 }
