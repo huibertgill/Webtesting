@@ -3,8 +3,6 @@
 
 var testPageLink = "http://www.metro24.de";
 var errorText = "Aufgrund von Wartungsarbeiten";
-var dateNow = new Date();
-var dateDateTime = dateNow.getFullYear() + pad(dateNow.getMonth() + 1) + pad(dateNow.getDate()) + '-' + pad(dateNow.getHours()) + pad(dateNow.getMinutes()) + pad(dateNow.getSeconds());
 var testCount = 1;
 	
 casper.test.begin('Startseite, Maintenace', testCount, function suite(test) {
@@ -15,13 +13,13 @@ casper.test.begin('Startseite, Maintenace', testCount, function suite(test) {
 	
 	casper.then(function() {
 		if (test.currentSuite.failed < 1) {
-			this.echo('Kein Beweisfoto notwendig.');
+			log('Homepage: OK, Kein Beweisfoto notwendig.');
 		} else {
-			this.echo('Homepage kaputt:   Beweisfoto notwendig.');
+			log('Homepage kaputt:   Beweisfoto notwendig.');
 			this.viewport(1280, 1024).then( function(){
 				this.capture('screenshots/screenshot-m24-homepage-'  + dateDateTime + '.png');
 			});
-			fs.write('web-checks.log' , 'Maintenance Seite an stelle der Homepage unter: ' + testPageLink + ' ist Fehlerhaft um:' + dateDateTime + ' (Sehe Screenshots)\n', 'a');
+			log('Maintenance Seite an stelle der Homepage unter: ' + testPageLink + ' ist Fehlerhaft');
 		}
 	});
 	casper.run(function() {
@@ -29,11 +27,3 @@ casper.test.begin('Startseite, Maintenace', testCount, function suite(test) {
 	});
 });
 
-
-function pad(number) {
-  var r = String(number);
-  if ( r.length === 1 ) {
-    r = '0' + r;
-  }
-  return r;
-}
