@@ -1,9 +1,6 @@
 // My Logfile JS module
 
 var fs = require('fs'); 
-var dateNow = new Date();
-var dateDate = dateNow.getFullYear() + pad(dateNow.getMonth() + 1) + pad(dateNow.getDate()) ;
-var dateDateTime = dateNow.getFullYear() + pad(dateNow.getMonth() + 1) + pad(dateNow.getDate()) + '-' + pad(dateNow.getHours()) + pad(dateNow.getMinutes()) + pad(dateNow.getSeconds());
 
 function pad(number) {
   var r = String(number);
@@ -15,6 +12,9 @@ function pad(number) {
 }
 
 function log(theText) {
+	var dateNow = new Date();
+	var dateDate = dateNow.getFullYear() + pad(dateNow.getMonth() + 1) + pad(dateNow.getDate()) ;
+	var dateDateTime = dateNow.getFullYear() + pad(dateNow.getMonth() + 1) + pad(dateNow.getDate()) + '-' + pad(dateNow.getHours()) + pad(dateNow.getMinutes()) + pad(dateNow.getSeconds());
 	fs.write('web-checks-'+dateDate+'.log' , dateDateTime +' - ' + theText + '\r\n', 'a');
 	casper.echo(theText);
 }
