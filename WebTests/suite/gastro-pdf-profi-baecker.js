@@ -5,6 +5,7 @@ var katalogLink = "http://www.metro-gastronomieshop.de/aktuellewerbung/fullscree
 var errorText = "Keine Kataloge in dieser Kategorie";
 var testCount = 3;
 	
+	
 casper.test.begin('Katalog auf Absolutweb Test', testCount, function suite(test) {
 	//Zuerst aktuelle Screenshots erfassen
 	casper.start(katalogLink, function(){
@@ -12,15 +13,15 @@ casper.test.begin('Katalog auf Absolutweb Test', testCount, function suite(test)
 		test.assertDoesntExist('body > p', 'Test kein Text im Body, nur Flash');
 		test.assertTextDoesntExist('Keine Kataloge in dieser Kategorie', 'Test Text: Keine Kataloge');
 	});
-	casper.run(function() {
+	casper.then(function(){
 		if (test.currentSuite.failed < 1) {
-			log('Kein Beweisfoto notwendig.');
+			log('Katalogtest - Kein Beweisfoto notwendig.');
 		} else {
 			log('Kataloge auf ' + katalogLink + 'Fehlerhaft, sehe Screenshots');
-			this.viewport(1280, 1024).then( function(){
-				this.capture('screenshots/screenshot-ProfiJournal-'  + screenshotDateTime + '.png');
-			});
+			saveScreenshot(this, 'PDF-Default');
 		}
+	});
+	casper.run(function() {
 		test.done();
 	});
 });
