@@ -8,5 +8,5 @@ echo "Append Casper Files to Path"
 call setup
 )
 echo on
-call casperjs test suite --includes=logger.js --proxy=10.16.36.38:3128 --pre=pre-test.js --post=post-test.js --xunit=log.xml
+call casperjs test suite --includes=logger.js --proxy=10.16.36.38:3128 --proxy-auth=%PROXY_U%:%PROXY_P% --pre=pre-test.js --post=post-test.js --xunit=log.xml
 pause
