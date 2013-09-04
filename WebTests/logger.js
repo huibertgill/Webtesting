@@ -18,3 +18,12 @@ function log(theText) {
 	fs.write('web-checks-'+dateDate+'.log' , dateDateTime +' - ' + theText + '\r\n', 'a');
 	casper.echo(theText);
 }
+
+function saveScreenshot(casperInstance, screenName) {
+	var dateNow = new Date();
+	var dateDate = dateNow.getFullYear() + pad(dateNow.getMonth() + 1) + pad(dateNow.getDate()) ;
+	var dateDateTime = dateNow.getFullYear() + pad(dateNow.getMonth() + 1) + pad(dateNow.getDate()) + '-' + pad(dateNow.getHours()) + pad(dateNow.getMinutes()) + pad(dateNow.getSeconds());
+	casperInstance.viewport(1280, 1024).then( function(){
+		casperInstance.capture('screenshots/' + screenName + '-'  + dateDateTime + '.png');
+	});
+}
