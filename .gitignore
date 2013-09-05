@@ -3,3 +3,4 @@ WebTests/screenshots-*
 *.png
 log.xml
 WebTests/accelerated_pac_base pac.txt
+DONTUSEME
