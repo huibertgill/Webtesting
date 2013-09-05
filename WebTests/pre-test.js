@@ -5,6 +5,7 @@ var googleTitle ='Google';
 log('Start checks');
 
 casper.test.begin('Internet und Google verfügbar TEst', 1, function suite(test) {
+	casper.echo("Erst mal ein Proxy Test");
 	//Zuerst aktuelle Screenshots erfassen
 	casper.start('http://www.google.de', function(){
 		test.assertTitle(googleTitle, 'Check for working Proxy');
