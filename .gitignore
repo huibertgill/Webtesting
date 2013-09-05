@@ -2,3 +2,4 @@ WebTests/screenshots-*
 *.log
 *.png
 log.xml
+WebTests/accelerated_pac_base pac.txt
