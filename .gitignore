@@ -1,4 +1,4 @@
-WebTests/screenshots-*
+WebTests/screenshots
 *.log
 *.png
 log.xml
