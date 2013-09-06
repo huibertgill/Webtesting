@@ -33,7 +33,7 @@ casper.test.begin('OO2 Login Test', 3, function suite(test) {
 	
 	
 	casper.then(function() {
-		test.assertTextExist('Startseite METRO Cash' , 'Logout OK, Startseite auf Service Seite');
+		test.assertTextExist('Sie haben sich erfolgreich abgemeldet' , 'Logout OK, Startseite auf Service Seite');
 		//saveScreenshot(this, 'OO2-Anmeldetest-Abgemeldet');
 	});
 
