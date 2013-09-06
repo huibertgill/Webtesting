@@ -16,9 +16,7 @@ casper.test.begin('Startseite, Maintenace', testCount, function suite(test) {
 			log('Homepage: OK, Kein Beweisfoto notwendig.');
 		} else {
 			log('Homepage kaputt:   Beweisfoto notwendig.');
-			this.viewport(1280, 1024).then( function(){
-				this.capture('screenshots/screenshot-m24-homepage-'  + dateDateTime + '.png');
-			});
+			saveScreenshot(this, 'M24 Check Maintenace');
 			log('Maintenance Seite an stelle der Homepage unter: ' + testPageLink + ' ist Fehlerhaft');
 		}
 	});
