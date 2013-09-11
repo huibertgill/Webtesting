@@ -1,53 +1,44 @@
-var testPageLink = "http://www.ccschaper.de/pages/DE/HomePage";
+var testPageLink = "http://www.ccschaper.de/pages/DE/Login/LoginHint";
 var system = require('system'); 
 var username = system.env.CCSCHAPER_U; 
 var password = system.env.CCSCHAPER_P; 	
 	
-casper.test.begin('OO2 Login Test', 1, function suite(test) {
+casper.test.begin('Schaper Website Login Test', 4, function suite(test) {
 	//Zuerst aktuelle Screenshots erfassen
 	casper.start(testPageLink, function(){
-		saveScreenshot(this, 'CCSCHAPER-Anmeldetest-Login');
-		test.assertSelectorHasText('a.login-lightwindow', 'Anmelden');
-	});
-/*
-	casper.thenEvaluate(function(username,password){
-		document.getElementsByName('IDToken1')[0].value=username;
-		document.getElementsByName('IDToken2')[0].value=password ;
-		defaultSubmit();
-	}, username, password);
-	
-	
-	// METRO Online-Bestellservice
-	casper.then(function() {
-		test.assertSelectorHasText('h1', 'Willkommen bei Ihrem METRO Online-Bestellservice');
-		//saveScreenshot(this, 'OO2-Anmeldetest-Startseite');
-	});
-	
-	casper.then(function() {
-		this.echo('Post ist Done');
-	});
-
-	casper.then(function() {
-		this.clickLabel('Abmelden', 'a');
-	});
-	
-	
-	casper.then(function() {
-		test.assertTextExist('Sie haben sich erfolgreich abgemeldet' , 'Logout OK, Startseite auf Service Seite');
-		//saveScreenshot(this, 'OO2-Anmeldetest-Abgemeldet');
+		log('SchaperAnmeldung Test Start');
+		//saveScreenshot(this, 'Schaper-Anmeldetest-Startseite');
+		test.assertSelectorHasText('A.login_lightwindow.cboxElement > u', 'Anmelden');
 	});
 
 	
 	casper.then(function(){
+		casper.echo("Form ausfüllen");
+		casper.fill('form[name=customerLoginForm]', {
+			'loginName' : username
+			, 'passwordByLoginName' : password
+		}, false);
+	});
+
+	casper.then(function(){
+		casper.click('input#doLogin2.button');
+	});
+
+	
+	casper.then(function(){
+		test.assertTextDoesntExist('Uengueltige Anfrage');
+		test.assertTextDoesntExist('Der angegebene Kunde konnte nicht gefunden werden');
+		test.assertTextDoesntExist('Ungültige Nutzer/Kennwort-Kombination');
+
+	});
+	casper.then(function(){
 		if (test.currentSuite.failed < 1) {
-			log('OO2 Anmeldetest - Kein Beweisfoto notwendig.');
+			log('SchaperAnmeldung OK- Kein Beweisfoto notwendig.');
 		} else {
-			log('OO2 Anmeldetest ' + testPageLink + 'Fehlerhaft, sehe Screenshots');
-			saveScreenshot(this, 'OO2-Anmeldetest-Irgendwo');
+			log('SchaperAnmeldung Fehlerhaft, sehe Screenshots');
+			saveScreenshot(this, 'Schaper-Anmeldetest');
 		}
 	});
-	
-*/
 	casper.run(function() {
 		test.done();
 	});
