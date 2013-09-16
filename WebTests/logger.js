@@ -24,6 +24,6 @@ function saveScreenshot(casperInstance, screenName) {
 	var dateDate = dateNow.getFullYear() + pad(dateNow.getMonth() + 1) + pad(dateNow.getDate()) ;
 	var dateDateTime = dateNow.getFullYear() + pad(dateNow.getMonth() + 1) + pad(dateNow.getDate()) + '-' + pad(dateNow.getHours()) + pad(dateNow.getMinutes()) + pad(dateNow.getSeconds());
 	casperInstance.viewport(1280, 1024).then( function(){
-		casperInstance.capture('screenshots/' + screenName + '-'  + dateDateTime + '.png');
+		casperInstance.capture('screenshots/' + dateDateTime + '-' + screenName  + '.png');
 	});
 }
