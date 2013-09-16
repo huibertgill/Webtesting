@@ -29,8 +29,8 @@ Branch entfernen
 ================
 Zuerst Remote, dann Lokal:
 
-	git push origin --delete schaper-login
-	git branch -d schaper-login
+	git push origin --delete NEW-BRANCH-NAME
+	git branch -d NEW-BRANCH-NAME
 
 DONE
 ====
