@@ -19,7 +19,7 @@ casper.test.begin('OO2 Login Test', 3, function suite(test) {
 	
 	// METRO Online-Bestellservice
 	casper.then(function() {
-		test.assertSelectorHasText('h1', 'Willkommen bei Ihrem METRO Online-Bestellservice');
+		test.assertSelectorHasText('div.Box > H3', 'Willkommen bei Ihrem METRO Online-Bestellservice');
 		//saveScreenshot(this, 'OO2-Anmeldetest-Startseite');
 	});
 	
