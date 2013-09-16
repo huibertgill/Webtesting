@@ -20,6 +20,7 @@ Solange bis alles läuft
 Merge
 =====
 Nach Commit, zuerst zurück wechseln, dann mergen, und Hochladen
+
 	git checkout master
 	git merge NEW-BRANCH-NAME
 	git push
@@ -27,6 +28,7 @@ Nach Commit, zuerst zurück wechseln, dann mergen, und Hochladen
 Branch entfernen
 ================
 Zuerst Remote, dann Lokal:
+
 	git push origin --delete schaper-login
 	git branch -d schaper-login
 
